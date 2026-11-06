@@ -1,97 +1,327 @@
 # FX1 White Hacker Development Roadmap
 
-This roadmap describes planned work for FX1 White Hacker by FX1 Digital Hubs. It is a plan, not a feature list: **items below are not implemented unless the repository contains working code and tests demonstrating them.** The repository currently contains documentation and project configuration only; there is no application package or CLI.
+**FX1 Digital Hubs**
 
-Work is intended to proceed in small, reviewed increments. Each phase should include appropriate tests, documentation, safe defaults, and an honest summary of checks performed. Do not begin a later phase without approval.
+This roadmap defines the development direction of FX1 White Hacker, an ethical cybersecurity and defensive security workstation designed for Android Termux, web access and future Android native integration.
 
-## 1. Repository foundation
+Features are classified as implemented, in development or planned. A feature must have working code, appropriate tests and documentation before being described as complete.
 
-- Align project documentation with the actual repository and its development status.
-- Document Termux setup, development workflow, authorization expectations, and optional integrations.
-- Protect local secrets, generated reports, scan results, and evidence from accidental commits.
+Development proceeds incrementally. Existing source code, project history, user data and security controls must be preserved.
+
+## 1. Repository Foundation
+
+**Status: Substantially completed.**
+
+- Establish the GitHub repository and development workflow.
+- Configure the Python package and project metadata.
+- Document Termux installation and development procedures.
+- Establish security, authorization and data-handling policies.
+- Protect secrets, generated reports, scan results and forensic evidence.
 - Preserve the existing MIT license.
 
 ## 2. FX1 Core Engine
 
-- Establish a lightweight Python package and supported Python version.
-- Provide shared configuration, validated inputs, safe logging, diagnostics, and consistent finding/report models.
-- Enforce explicit authorization and allowlisted target scope before active assessment operations.
-- Add a usable CLI only for capabilities that are implemented and tested.
-- Verify graceful behavior when platform features, permissions, dependencies, or network access are unavailable.
-- Keep Phase 2 dependencies limited to requirements justified by implemented core functionality; future cryptography and provider SDKs must not be added prematurely.
+**Status: Initial implementation; in development.**
+
+Existing implementation:
+
+- Python package configuration.
+- Core Engine package.
+- Domain and IP validation.
+- Explicit authorization scope controls.
+- Initial bounded port-scanning enforcement.
+- Automated tests for validation, authorization and scanning.
+
+Remaining development:
+
+- Shared application configuration.
+- Consistent diagnostics and error handling.
+- Safe logging and sensitive-data redaction.
+- Structured findings and report models.
+- Improved CLI and application entry points.
+- Dependency and platform compatibility checks.
+- Additional automated security tests.
+
+The engine must remain useful without optional external services.
 
 ## 3. FX1 Recon
 
-- Add carefully scoped domain/DNS and IP information gathering, plus authorized network and service observations.
-- Use bounded timeouts, conservative request rates, reusable functions, and clear errors.
-- Distinguish observed facts from assumptions; avoid labeling an open port as a vulnerability without supporting evidence.
-- Test validation, timeouts, failures, and reporting behavior.
+**Status: Initial modules implemented; further validation required.**
+
+Existing source includes:
+
+- DNS lookup.
+- IP information.
+- Network scanning.
+- Port scanning.
+- Text report generation.
+
+Further development:
+
+- Improve DNS and domain intelligence.
+- Improve IP and network observations.
+- Add carefully bounded service identification.
+- Add safe HTTP and TLS observations.
+- Improve structured reporting.
+- Clearly distinguish observations from assumptions.
+- Enforce authorization and target scope before active operations.
+
+An open port must not automatically be described as a vulnerability.
 
 ## 4. Web and Network Security
 
-- Add safe HTTP/TLS configuration observations, security-header and cookie checks, and authorized network diagnostics.
-- Require approved targets for active checks; avoid exploitation, destructive operations, stealth, or scope expansion.
-- Document limitations and provide practical remediation guidance without asserting that an unflagged system is secure.
+**Status: Planned.**
+
+- HTTP security configuration observations.
+- Security-header analysis.
+- Cookie security checks.
+- TLS certificate and configuration observations.
+- Authorized network diagnostics.
+- Safe configuration recommendations.
+- Evidence-based security findings.
+
+No exploitation, destructive activity, stealth or unauthorized scope expansion.
 
 ## 5. FX1 Crypto Security
 
-**Planned; not implemented.** The owner has confirmed that FX1 must provide both file encryption/decryption and password protection/management. Use established, maintained cryptographic libraries and authenticated encryption only. Preferred algorithms are AES-256-GCM or XChaCha20-Poly1305 for authenticated encryption and Argon2id for password-based key derivation. Never invent cryptographic algorithms or store plaintext passwords.
+**Status: Planned.**
 
-- Encrypt and decrypt user-selected files with authenticated encryption and safe, versioned metadata. Handle nonces correctly, reject tampered data, and avoid destructive overwrite defaults.
-- Build the local password vault described in the architecture decisions: encrypted local storage, master-password authentication, password generation/retrieval, automatic locking, and encrypted backup/restore.
-- Keep secrets out of logs, reports, and error messages; use safe key derivation and minimize key exposure in memory.
-- Scan only user-selected local files or repositories for accidental secret exposure. Redact findings; provide safe remediation and incident-response guidance.
-- Never retrieve, validate for use, or transact with another person's private keys or seed phrases.
-- Select and justify cryptography dependencies during the relevant implementation phase; do not add them to Phase 2 without a concrete core requirement.
+Owner-confirmed requirements include:
+
+### File Encryption and Decryption
+
+- Encrypt and decrypt user-selected files.
+- Use established authenticated encryption.
+- Use AES-256-GCM or XChaCha20-Poly1305 where appropriate.
+- Use safe, versioned metadata.
+- Detect tampering.
+- Avoid destructive overwrite defaults.
+
+### FX1 Password Vault
+
+- Encrypted local password storage.
+- Master-password authentication.
+- Secure password generation and retrieval.
+- Automatic locking.
+- Encrypted backup and restoration.
+- No plaintext password storage.
+
+Use established cryptographic libraries and Argon2id for password-based key derivation where appropriate.
+
+Never invent cryptographic algorithms or expose private keys and passwords in logs.
 
 ## 6. Digital Forensics
 
-- Support safe file hashing, metadata and file-type observations, local log analysis, and IOC identification.
-- Never execute suspicious files.
-- Record forensic actions and preserve evidence integrity; explain permissions and data-handling limitations.
-- Protect evidence and reports as sensitive local data.
+**Status: Planned.**
+
+- File hashing.
+- File metadata and type analysis.
+- Local log analysis.
+- Indicator of compromise identification.
+- Evidence integrity checks.
+- Protected reports.
+- Documented forensic procedures.
+
+Suspicious files must never be executed as part of static analysis.
 
 ## 7. Phishing Awareness Lab and Email Security
 
-**Planned; not implemented.** Provide suspicious URL and email-header analysis, phishing-indicator education, suspicious attachment inspection, and security reporting. If simulations are added, use synthetic identities and clearly identified training pages. Never collect real passwords, tokens, cookies, or private credentials; do not enable unauthorized deployment.
+**Status: Planned.**
 
-Owner-confirmed mailbox integrations must use official provider authorization flows:
+### Phishing Awareness
 
-- **Gmail:** Google OAuth and the Gmail API.
-- **Microsoft Outlook:** Microsoft OAuth and Microsoft Graph API.
-- Request least-privilege permissions, obtain explicit user authorization, and use approved authentication/token handling. Never collect email passwords or bypass provider authentication.
-- Planned mailbox features include security audits, phishing analysis, safe suspicious-attachment inspection, and security reporting, limited to mailboxes the user is authorized to assess.
-- Keep provider integrations optional and modular. No provider SDK or integration dependency is required for Phase 2; evaluate dependencies only when implementation is approved.
+- Suspicious URL analysis.
+- Email-header analysis.
+- Suspicious attachment inspection.
+- Domain and redirect analysis.
+- Phishing-indicator education.
+- Safe awareness simulations using synthetic identities.
+
+Never collect real passwords, MFA codes, cookies, session tokens or private credentials.
+
+### Official Email Integrations
+
+Gmail:
+
+- Google OAuth.
+- Official Gmail API.
+- Least-privilege permissions.
+
+Microsoft Outlook:
+
+- Microsoft OAuth.
+- Microsoft Graph API.
+- Least-privilege permissions.
+
+Planned features include authorized mailbox security audits, phishing analysis, safe attachment inspection and reporting.
 
 ## 8. AI Security Intelligence
 
-- Define an optional provider interface for explaining findings, prioritizing risks, and drafting remediation/report text.
-- Keep the toolkit useful without AI credentials or network access.
-- Store credentials in environment variables or an appropriate secret store; redact them from output.
-- Treat AI output as advisory. AI must not run arbitrary commands, perform scans, or expand authorized scope.
-- Send assessment data to an external provider only with explicit user approval.
+**Status: Planned.**
 
-## 9. FX1 Mobile Security Lab
+- AI-assisted findings explanation.
+- Risk prioritization.
+- Remediation recommendations.
+- Report drafting.
+- Natural-language interaction with the FX1 workstation.
+- Optional provider integrations.
+- Offline operation when AI services are unavailable.
 
-**Future requirement only — not implemented and not authorized to begin until the core FX1 engine is complete and approved.**
+AI must not independently execute arbitrary commands, initiate scans or expand assessment scope.
 
-The intended module is for authorized Android security education and assessment, with compatibility considered for Android Termux and optional Kali NetHunter Rootless environments. Compatibility must be detected and limitations reported; root access or Kali tooling must not be assumed.
+External transmission of assessment data requires explicit user approval.
 
-Potential, explicitly authorized capabilities include:
+## 9. FX1 Web Command Center
 
-- ADB availability checks and discovery/diagnostics for devices whose owner has authorized the assessment.
-- Basic connected-device information and application inventory within Android's access and permission model.
-- Offline APK static inspection, application-permission auditing, and security-configuration observations.
-- Modular optional adapters for tools such as MobSF, JADX, Apktool, and Frida, with missing-tool checks and no mandatory heavy dependencies.
-- Authorized application dynamic testing only in a controlled environment and within documented scope.
-- Mobile network security observations and forensic file hashing/evidence reporting with clear audit records and protected outputs.
+**Status: Planned — v0 and Vercel.**
 
-This module must not secretly access devices, extract messages/calls/credentials, activate cameras or microphones, install spyware, establish persistence, or perform covert surveillance. Root and non-root capabilities, Android version restrictions, ADB trust requirements, data sensitivity, and evidence-handling procedures must be documented before release.
+The web Command Center will provide the primary browser-based management interface.
 
-## 10. Testing and Release
+Planned modules:
 
-- Build a focused automated test suite for implemented behavior, including invalid input, missing tools, network failures, authorization enforcement, permissions, and secret redaction as applicable.
-- Add appropriate code quality and security checks only when the project configuration supports them.
-- Verify Termux behavior where practical and clearly document platform-specific limitations.
-- Review dependencies, documentation, license notices, generated-data handling, and release artifacts.
-- Publish only features whose behavior and tests have been verified; do not claim unrun checks passed.
+1. Overview and system status.
+2. FX1 AI Assistant.
+3. Recon Center.
+4. Network Intelligence.
+5. Vulnerability Lab.
+6. Phishlet Security Lab.
+7. Camera and Vision.
+8. Voice Command.
+9. Administrator Security.
+10. Reports.
+11. System Monitor.
+12. Settings.
+
+Development requirements:
+
+- Professional, responsive dashboard.
+- Secure authentication.
+- Role-based access controls.
+- Protected API communication.
+- Live engine connection status.
+- Findings and report management.
+- Clear operation status and error messages.
+
+The web interface must not pretend that local Termux operations are running when the engine is disconnected.
+
+Vercel will host the web application and suitable backend services. Actual local security operations will be performed by the authorized FX1 Core Engine.
+
+## 10. Secure API and Engine Connection
+
+**Status: Planned.**
+
+Connect the Web Command Center to the Termux Core Engine through an authenticated and encrypted communication layer.
+
+Requirements:
+
+- Explicit device registration.
+- Strong authentication.
+- Encrypted transport.
+- Scoped API permissions.
+- Secure session management.
+- Request validation.
+- Authorization enforcement on the local engine.
+- Audit records for security-relevant actions.
+- Connection health monitoring.
+- Safe disconnection and revocation.
+
+The web dashboard must never be able to bypass the Core Engine's authorization controls.
+
+No public unauthenticated command-execution endpoint.
+
+## 11. FX1 Android Companion
+
+**Status: Planned.**
+
+The Android Companion will provide native mobile integration.
+
+### Camera and Vision
+
+- User-controlled camera access.
+- Administrator face enrollment.
+- Face recognition for identity assistance.
+- Visible camera permission and activity indicators.
+
+### Voice and Audio
+
+- Microphone integration.
+- Voice commands.
+- Speech recognition.
+- Speech responses.
+- Administrator voice verification.
+
+### Administrator Security
+
+- Android biometric authentication.
+- Secure PIN verification.
+- Device-bound authentication where available.
+- Additional confirmation for sensitive actions.
+
+Face and voice recognition alone must never authorize sensitive administrator operations.
+
+### Device Integration
+
+- Secure connection to the FX1 Core Engine.
+- Secure communication with the Web Command Center.
+- Notifications.
+- Device status and connection management.
+
+Camera and microphone access must always remain visible and user-controlled. Covert surveillance is prohibited.
+
+Android version, permissions, hardware availability and architecture limitations must be considered before selecting implementation technologies.
+
+## 12. FX1 Mobile Security Lab
+
+**Status: Planned.**
+
+This is a separate defensive assessment module, not the Android Companion.
+
+Potential capabilities:
+
+- Android device diagnostics.
+- Authorized ADB availability checks.
+- Device information and application inventory within permission limits.
+- APK static analysis.
+- Application permission auditing.
+- Security configuration observations.
+- File hashing and forensic reporting.
+- Optional integrations with compatible tools such as MobSF, JADX and Apktool.
+
+Root access must not be assumed. Tool compatibility must be checked against the actual Android and Termux environment.
+
+No spyware, covert access, unauthorized extraction or persistence.
+
+## 13. Testing, Security and Release
+
+**Status: Ongoing.**
+
+- Maintain automated tests.
+- Test authorization and scope enforcement.
+- Test invalid input and network failures.
+- Test dependency and platform limitations.
+- Review security-sensitive code.
+- Protect reports and sensitive data.
+- Review third-party dependencies and licenses.
+- Document known limitations.
+- Verify Termux compatibility.
+- Test web and Android integrations before release.
+- Publish only reviewed and tested features.
+
+## Development Principles
+
+1. Preserve existing working code and Git history.
+2. Develop the local Core Engine before depending on web integration.
+3. Keep the web interface and execution engine separate.
+4. Require authorization for every active assessment.
+5. Protect administrator identity and sensitive information.
+6. Use established security libraries and protocols.
+7. Avoid unnecessary dependencies.
+8. Test each implementation before moving forward.
+9. Keep the system modular and maintainable.
+10. Never claim a planned feature is already available.
+
+---
+
+**Developed by FX1 Digital Hubs**
+
+*Ethical Security. Professional Intelligence. Digital Protection.*
