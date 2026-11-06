@@ -1,129 +1,105 @@
-🛡️ FX1 WhiteHat Lab
+# FX1 White Hacker
 
-Full-Stack Ethical Hacking | Cybersecurity | Penetration Testing | Security Research
+**Ethical Security. Professional Intelligence. Digital Protection.**
 
-Welcome to FX1 WhiteHat Lab, a personal cybersecurity research and development laboratory focused on learning, building, testing, and understanding modern digital security.
+FX1 White Hacker is an Android Termux-compatible cybersecurity assessment and defensive security toolkit under development by FX1 Digital Hubs. The repository is currently at its documentation and project-foundation stage: it does not yet contain an installable Python package, command-line interface, or assessment modules.
 
-This repository documents my journey into full-stack white-hat hacking, using Android Termux as my primary development environment.
+All future assessment features are intended for systems, devices, repositories, and data that the operator owns or has explicit permission to assess. Planned capabilities are not available until implemented, documented, and tested.
 
-My mission is to develop practical cybersecurity skills, build custom security tools, understand vulnerabilities, and learn how to protect digital infrastructure.
+## Project objectives
 
----
+- Build a modular, maintainable Python toolkit with Termux and mobile constraints in mind.
+- Support authorized reconnaissance and defensive security assessment with conservative defaults.
+- Protect user data, credentials, scan results, and forensic evidence.
+- Make external security tools optional integrations, not assumed dependencies.
+- Provide clear explanations of findings, limitations, and remediation.
+- Develop incrementally, with tests and documentation for each implemented feature.
 
-🎯 Mission
+## Planned modules
 
-To become a skilled full-stack white-hat hacker with practical knowledge of:
+These are roadmap items, not currently available features:
 
-- Network security
-- Web application security
-- Linux security
-- Android security
-- Ethical penetration testing
-- Python security automation
-- Vulnerability assessment
-- Defensive cybersecurity
+- **FX1 Core Engine:** shared configuration, input validation, authorization and target-scope controls, diagnostics, and safe logging.
+- **FX1 Recon:** authorized DNS/domain and IP intelligence, conservative port/service checks, HTTP/TLS observations, and structured findings.
+- **Web and Network Security:** safe web configuration checks and authorized network diagnostics.
+- **FX1 Crypto Security:** local secret-exposure detection with redaction and incident-response guidance.
+- **Digital Forensics:** non-executing file and log analysis, hashing, IOC observations, and protected evidence reports.
+- **Phishing Awareness Lab:** phishing-indicator education and controlled simulations that never collect real credentials.
+- **AI Security Intelligence:** optional result explanation and reporting; AI will not execute commands or expand assessment scope.
+- **FX1 Mobile Security Lab:** future authorized Android device diagnostics, APK and permission analysis, and device forensics. This is not implemented. See [the roadmap](docs/ROADMAP.md).
+- **Testing and Release:** compatibility, security, documentation, and release readiness checks.
 
-🧰 Development Environment
+## Current development status
 
-Technology| Purpose
-Termux| Android Linux environment
-Python| Security automation and tool development
-Git| Version control
-GitHub| Project management and collaboration
-Nmap| Network discovery and auditing
-OpenSSH| Secure remote administration
-Linux| System administration and security
+**Status: project foundation only.** The current repository includes this README, `.gitignore`, and the MIT `LICENSE`. It has no application source code, installed package, CLI commands, dependency manifest, or automated test suite. Do not expect commands such as `fx1 doctor` or `fx1 recon` to work yet; they will be documented only after the corresponding functionality exists and is tested.
 
-📚 Learning Areas
+See [docs/ROADMAP.md](docs/ROADMAP.md) for the planned sequence. No future module should be treated as implemented based on its appearance in the roadmap.
 
-1. Networking
+## Requirements and optional tools
 
-Understanding IP addresses, DNS, ports, protocols, network discovery, and network diagnostics.
+The project is intended for Python 3 on Android Termux. A supported minimum Python version and application dependencies will be declared when the package and core engine are implemented. **There are no project Python dependencies to install at this stage.** Git and Python are the only tools needed to clone and work with the current documentation-only repository.
 
-2. Reconnaissance
+Some future capabilities may optionally integrate with external tools (for example, Nmap, ADB, MobSF, JADX, Apktool, or Frida). These tools are not currently required or invoked by this repository. Their availability, platform compatibility, authorization requirements, and limitations will be checked and documented before any integration is released. Do not install tools just to use this repository's current contents.
 
-Learning authorized information gathering, domain intelligence, and asset discovery.
+## Android Termux setup
 
-3. Web Application Security
+Install Termux from a trusted distribution source, open it, then update packages and install Git and Python:
 
-Studying OWASP security principles, SQL injection, XSS, CSRF, authentication, and secure coding.
+```sh
+pkg update
+pkg upgrade
+pkg install git python
+```
 
-4. Python Security Tools
+Clone the correct repository and enter its directory:
 
-Developing custom scripts for network diagnostics, security automation, and vulnerability assessment.
+```sh
+git clone https://github.com/fx1codes/Fx1-white-hacker.git
+cd Fx1-white-hacker
+```
 
-5. Linux Security
+The repository currently has no runnable application, so these steps prepare a development environment only.
 
-Exploring permissions, processes, SSH, system administration, and security hardening.
+### Optional Python virtual environment
 
-6. Android Security
+A virtual environment is useful once Python project dependencies are introduced. There are no project dependencies to install yet.
 
-Learning Android application architecture, APK analysis, permissions, and mobile application security.
+```sh
+python -m venv .venv
+. .venv/bin/activate
+python -m pip --version
+```
 
-7. Penetration Testing
+To leave the environment, run `deactivate`. The `.venv/` directory is ignored by Git. On Termux, if virtual-environment creation is unavailable in a particular Python installation, consult the current Termux Python package guidance rather than installing untrusted bootstrap scripts.
 
-Practising structured security assessments in controlled and authorized environments.
+## Development workflow
 
-8. Defensive Security
+1. Review the current [roadmap](docs/ROADMAP.md) and work on the approved phase only.
+2. Keep changes small and focused; inspect existing files before editing.
+3. For future code changes, add or update tests and documentation with the implementation.
+4. Run checks that are actually configured and available in the environment; report unavailable checks honestly.
+5. Review the full diff, check for secrets and generated assessment data, and commit only intended files.
+6. Use a feature branch and request review before merging to `main`.
 
-Learning threat detection, vulnerability remediation, monitoring, and incident response.
+There is no application test or lint command at this stage because no test suite or Python project configuration exists.
 
----
+## Security, authorization, and data handling
 
-📂 Repository Structure
+- Assess only systems, networks, devices, accounts, and repositories you own or have explicit authorization to test.
+- Define and stay within the approved target scope. Stop if authorization or scope is unclear.
+- Do not use the project for credential theft, covert surveillance, unauthorized access, stealth, evasion, persistence, or destructive activity.
+- Never execute suspicious files during forensic analysis.
+- Do not collect real passwords, tokens, private keys, seed phrases, messages, or other private data. Future secret-scanning output must redact sensitive values.
+- Treat scan output, reports, logs, and forensic evidence as sensitive. Keep them local, restrict access, and do not commit them to a public repository.
+- Findings are observations, not proof that a system is vulnerable or secure; future reports must state limitations and distinguish facts from assumptions.
+- Do not upload assessment data to an external service without informed approval.
 
-FX1-WhiteHat-Lab/
-│
-├── Networking/
-├── Reconnaissance/
-├── Web-Security/
-├── Python-Tools/
-├── Android-Security/
-├── Linux/
-├── Reports/
-├── Documentation/
-│
-└── README.md
+The `.gitignore` excludes common local secrets and generated assessment outputs as a precaution. Ignore rules do not remove files already tracked by Git and are not a substitute for checking staged changes before committing.
 
-⚙️ Getting Started
+## License
 
-Update your Termux packages:
-
-pkg update && pkg upgrade -y
-
-Install essential development tools:
-
-pkg install git python python-pip curl wget nano openssh nmap dnsutils whois jq -y
-
-Clone this repository:
-
-git clone https://github.com/fx1codes/FX1-WhiteHat-Lab.git
-
-Enter the project directory:
-
-cd FX1-WhiteHat-Lab
-
-🔐 Ethical Guidelines
-
-This laboratory is strictly dedicated to ethical hacking, cybersecurity education, and authorized security research.
-
-- Only test systems you own or have explicit permission to assess.
-- Never access private systems without authorization.
-- Respect user privacy and data protection.
-- Disclose discovered vulnerabilities responsibly.
-- Use security knowledge to protect rather than harm.
-
-🚀 Long-Term Vision
-
-Build an independent collection of cybersecurity tools, practical research projects, security documentation, and Python automation utilities.
-
-The ultimate objective is to develop the technical ability to understand, assess, and secure digital systems across networks, websites, servers, and mobile applications.
+This project retains its existing [MIT License](LICENSE). No license change is proposed.
 
 ---
 
-Project: FX1 WhiteHat Lab
-Focus: Full-Stack Ethical Hacking & Cybersecurity
-Environment: Android Termux
-Developer: FX1 Digital Hubs
-
-Learn. Build. Test. Secure.
+Developed by **FX1 Digital Hubs**.
