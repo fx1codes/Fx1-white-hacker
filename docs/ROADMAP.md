@@ -18,6 +18,7 @@ Work is intended to proceed in small, reviewed increments. Each phase should inc
 - Enforce explicit authorization and allowlisted target scope before active assessment operations.
 - Add a usable CLI only for capabilities that are implemented and tested.
 - Verify graceful behavior when platform features, permissions, dependencies, or network access are unavailable.
+- Keep Phase 2 dependencies limited to requirements justified by implemented core functionality; future cryptography and provider SDKs must not be added prematurely.
 
 ## 3. FX1 Recon
 
@@ -34,10 +35,14 @@ Work is intended to proceed in small, reviewed increments. Each phase should inc
 
 ## 5. FX1 Crypto Security
 
-- Inspect only user-selected local files or repositories for accidental secret exposure.
-- Detect relevant patterns without displaying complete secret values; redact findings in logs and reports.
-- Provide safe remediation and incident-response guidance.
+**Planned; not implemented.** The owner has confirmed that FX1 must provide both file encryption/decryption and password protection/management. Use established, maintained cryptographic libraries and authenticated encryption only. Preferred algorithms are AES-256-GCM or XChaCha20-Poly1305 for authenticated encryption and Argon2id for password-based key derivation. Never invent cryptographic algorithms or store plaintext passwords.
+
+- Encrypt and decrypt user-selected files with authenticated encryption and safe, versioned metadata. Handle nonces correctly, reject tampered data, and avoid destructive overwrite defaults.
+- Build the local password vault described in the architecture decisions: encrypted local storage, master-password authentication, password generation/retrieval, automatic locking, and encrypted backup/restore.
+- Keep secrets out of logs, reports, and error messages; use safe key derivation and minimize key exposure in memory.
+- Scan only user-selected local files or repositories for accidental secret exposure. Redact findings; provide safe remediation and incident-response guidance.
 - Never retrieve, validate for use, or transact with another person's private keys or seed phrases.
+- Select and justify cryptography dependencies during the relevant implementation phase; do not add them to Phase 2 without a concrete core requirement.
 
 ## 6. Digital Forensics
 
@@ -46,11 +51,17 @@ Work is intended to proceed in small, reviewed increments. Each phase should inc
 - Record forensic actions and preserve evidence integrity; explain permissions and data-handling limitations.
 - Protect evidence and reports as sensitive local data.
 
-## 7. Phishing Awareness Lab
+## 7. Phishing Awareness Lab and Email Security
 
-- Provide suspicious URL and email-header analysis, educational explanations, and awareness reporting.
-- If simulations are added, use synthetic identities and clearly identified training pages.
-- Never collect real passwords, tokens, cookies, or private credentials; do not enable unauthorized deployment.
+**Planned; not implemented.** Provide suspicious URL and email-header analysis, phishing-indicator education, suspicious attachment inspection, and security reporting. If simulations are added, use synthetic identities and clearly identified training pages. Never collect real passwords, tokens, cookies, or private credentials; do not enable unauthorized deployment.
+
+Owner-confirmed mailbox integrations must use official provider authorization flows:
+
+- **Gmail:** Google OAuth and the Gmail API.
+- **Microsoft Outlook:** Microsoft OAuth and Microsoft Graph API.
+- Request least-privilege permissions, obtain explicit user authorization, and use approved authentication/token handling. Never collect email passwords or bypass provider authentication.
+- Planned mailbox features include security audits, phishing analysis, safe suspicious-attachment inspection, and security reporting, limited to mailboxes the user is authorized to assess.
+- Keep provider integrations optional and modular. No provider SDK or integration dependency is required for Phase 2; evaluate dependencies only when implementation is approved.
 
 ## 8. AI Security Intelligence
 
