@@ -30,7 +30,7 @@ import {
   X,
 } from "lucide-react"
 
-const logoUrl = "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG_7557-mfcafqXEYoqcW9xPLDI9yJ6QVCa4Vu.jpeg"
+const logoUrl = "https://cdn.builder.io/api/v1/image/assets%2Fa7d10ba2a7f54019b832d6402a7b5531%2Fc6f091693f4140e8ac258419f8dee122?format=webp&width=800&height=1200"
 
 const modules = [
   { name: "Network Analysis", detail: "Inventory, paths, exposure", icon: Network, tone: "cyan" },
