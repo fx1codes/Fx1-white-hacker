@@ -1,6 +1,8 @@
 "use client"
 
 import { useState, type FormEvent } from "react"
+import { requestEmailInvestigation } from "@/lib/email-intelligence-client"
+import type { EmailInvestigation } from "@/lib/email-intelligence"
 import {
   Activity,
   AlertTriangle,
@@ -43,21 +45,6 @@ const navItems = [
   { label: "AI Analyst", icon: Bot, available: false },
 ]
 
-type EmailCheck = {
-  name: string
-  status: "Confirmed" | "Possible" | "Not Found" | "Unable to Check"
-  confidence: "High" | "Medium" | "Low" | "None"
-  details: string[]
-  source: string
-}
-
-type EmailInvestigation = {
-  email: string
-  domain: string
-  investigatedAt: string
-  checks: EmailCheck[]
-}
-
 export function Workstation() {
   const [activeNav, setActiveNav] = useState("Command Center")
   const [mobileNavOpen, setMobileNavOpen] = useState(false)
@@ -73,14 +60,7 @@ export function Workstation() {
     setIsInvestigating(true)
 
     try {
-      const response = await fetch("/api/email-intelligence", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-      })
-      const result = await response.json()
-      if (!response.ok) throw new Error(result.error ?? "The investigation could not be completed.")
-      setInvestigation(result as EmailInvestigation)
+      setInvestigation(await requestEmailInvestigation(email))
     } catch (error) {
       setInvestigationError(error instanceof Error ? error.message : "The investigation could not be completed.")
     } finally {
