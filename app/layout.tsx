@@ -2,8 +2,8 @@ import type { Metadata, Viewport } from "next"
 import "./globals.css"
 
 export const metadata: Metadata = {
-  title: "FX1 White Hacker | Security Operations",
-  description: "Authorized security testing and defensive operations command center.",
+  title: "FX1 SHADOWCORE | Security Workstation",
+  description: "FX1 SHADOWCORE by FX1 Digital Hubs — authorized security operations and defensive analysis.",
 }
 
 export const viewport: Viewport = {
