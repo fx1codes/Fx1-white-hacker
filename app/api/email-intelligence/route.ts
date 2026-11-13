@@ -1,8 +1,12 @@
 import { EmailValidationError, investigateEmailAddress } from "../../../lib/email-intelligence.ts"
+import { isAdminAuthenticated } from "@/lib/admin-auth"
 
 const responseHeaders = { "Cache-Control": "no-store" }
 
 export async function handleEmailIntelligenceRequest(request: Request, investigator = investigateEmailAddress) {
+  if (!(await isAdminAuthenticated())) {
+    return Response.json({ error: "Administrator authentication required." }, { status: 401, headers: responseHeaders })
+  }
   if (Number(request.headers.get("content-length") ?? 0) > 1_024) {
     return Response.json({ error: "Request body is too large." }, { status: 413, headers: responseHeaders })
   }
