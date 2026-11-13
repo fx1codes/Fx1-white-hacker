@@ -3,8 +3,8 @@ import { isAdminAuthenticated } from "@/lib/admin-auth"
 
 const responseHeaders = { "Cache-Control": "no-store" }
 
-export async function handleEmailIntelligenceRequest(request: Request, investigator = investigateEmailAddress) {
-  if (!(await isAdminAuthenticated())) {
+export async function handleEmailIntelligenceRequest(request: Request, investigator = investigateEmailAddress, authorize = isAdminAuthenticated) {
+  if (!(await authorize())) {
     return Response.json({ error: "Administrator authentication required." }, { status: 401, headers: responseHeaders })
   }
   if (Number(request.headers.get("content-length") ?? 0) > 1_024) {
