@@ -28,7 +28,8 @@ test("tampered and malformed sessions are rejected", () => {
 
 test("missing or short server secrets fail closed", () => {
   const original = process.env.FX1_SESSION_SECRET
+  const token = createAdminSession("fx1faucet@gmail.com")
   process.env.FX1_SESSION_SECRET = "short"
-  assert.equal(verifyAdminSession(createAdminSession("fx1faucet@gmail.com")), false)
+  assert.equal(verifyAdminSession(token), false)
   process.env.FX1_SESSION_SECRET = original
 })
