@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, type FormEvent } from "react"
+import { useEffect, useState, type FormEvent } from "react"
 import { requestEmailInvestigation } from "@/lib/email-intelligence-client"
 import type { EmailInvestigation } from "@/lib/email-intelligence"
 import {
@@ -52,6 +52,19 @@ export function Workstation() {
   const [investigation, setInvestigation] = useState<EmailInvestigation | null>(null)
   const [investigationError, setInvestigationError] = useState("")
   const [isInvestigating, setIsInvestigating] = useState(false)
+  const [coreStatus, setCoreStatus] = useState<"checking" | "connected" | "disconnected">("checking")
+
+  useEffect(() => {
+    let active = true
+    fetch("/api/core/status", { cache: "no-store" })
+      .then(async (response) => {
+        const payload: unknown = await response.json()
+        if (!active) return
+        setCoreStatus(response.ok && typeof payload === "object" && payload !== null && "state" in payload && payload.state === "connected" ? "connected" : "disconnected")
+      })
+      .catch(() => { if (active) setCoreStatus("disconnected") })
+    return () => { active = false }
+  }, [])
 
   async function investigateEmail(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -86,9 +99,14 @@ export function Workstation() {
           </div>
 
           <div className="mt-10 rounded-2xl border border-[#243b76] bg-[#0b1d43] p-4">
-            <div className="flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.16em] text-amber-300"><span className="size-2 rounded-full bg-amber-300" /> Core Engine Not Installed</div>
-            <p className="mt-3 text-xs leading-5 text-slate-400">No local FX1 Core Engine is connected to this application.</p>
-            <div className="mt-4 flex items-center justify-between border-t border-white/10 pt-3 text-[11px] text-slate-500"><span>Integration</span><span>Not connected</span></div>
+            <div className={`flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.16em] ${coreStatus === "connected" ? "text-emerald-300" : coreStatus === "checking" ? "text-sky-300" : "text-amber-300"}`}>
+              <span className={`size-2 rounded-full ${coreStatus === "connected" ? "bg-emerald-300" : coreStatus === "checking" ? "bg-sky-300 animate-pulse" : "bg-amber-300"}`} />
+              {coreStatus === "connected" ? "Core Engine Connected" : coreStatus === "checking" ? "Checking Core Engine" : "Core Engine Disconnected"}
+            </div>
+            <p className="mt-3 text-xs leading-5 text-slate-400">
+              {coreStatus === "connected" ? "Authenticated local status bridge is responding." : coreStatus === "checking" ? "Checking the configured local bridge." : "No authenticated local FX1 Core Engine is reachable from this application host."}
+            </p>
+            <div className="mt-4 flex items-center justify-between border-t border-white/10 pt-3 text-[11px] text-slate-500"><span>Integration</span><span>{coreStatus === "connected" ? "Connected" : coreStatus === "checking" ? "Checking" : "Not connected"}</span></div>
           </div>
 
           <nav className="mt-8 flex-1" aria-label="Primary navigation">
