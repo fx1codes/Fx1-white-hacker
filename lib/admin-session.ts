@@ -58,3 +58,9 @@ export function authenticateAdmin(email: string, password: string) {
   return equalSecret(password, configuredPassword)
 }
 
+
+export function isAdminRequestAuthenticated(request: Request) {
+  const cookieHeader = request.headers.get("cookie") ?? ""
+  const token = cookieHeader.split(";").map(part => part.trim()).find(part => part.startsWith(`${ADMIN_COOKIE}=`))?.slice(ADMIN_COOKIE.length + 1)
+  return verifyAdminSession(token)
+}
