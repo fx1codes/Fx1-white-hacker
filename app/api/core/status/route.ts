@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server"
-import { isAdminAuthenticated } from "@/lib/admin-auth"
+import { isAdminAuthenticated } from "../../../../lib/admin-auth.ts"
 
 const disconnected = (message: string, status = 503) =>
   NextResponse.json(
