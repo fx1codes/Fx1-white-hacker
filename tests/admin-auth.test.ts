@@ -1,6 +1,6 @@
 import test from "node:test"
 import assert from "node:assert/strict"
-import { authenticateAdmin, createAdminSession, verifyAdminSession } from "../lib/admin-auth.ts"
+import { authenticateAdmin, createAdminSession, verifyAdminSession } from "../lib/admin-session.ts"
 
 process.env.FX1_ADMIN_EMAIL = "fx1faucet@gmail.com"
 process.env.FX1_ADMIN_PASSWORD = "a-very-long-test-password"
