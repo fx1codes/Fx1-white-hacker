@@ -32,7 +32,7 @@ async function post(body: string, investigator?: typeof investigateEmailAddress)
     method: "POST",
     headers: { "content-type": "application/json" },
     body,
-  }), investigator, async () => true)
+  }), investigator, () => true)
 }
 
 test("valid email returns structured DNS results without verifying mailbox ownership", async () => {
@@ -78,7 +78,7 @@ test("DNS server failure is reported as unavailable", async () => {
 })
 
 test("unauthenticated API requests are rejected", async () => {
-  const response = await handleEmailIntelligenceRequest(new Request("http://localhost/api/email-intelligence", { method: "POST", body: "{}" }), undefined, async () => false)
+  const response = await handleEmailIntelligenceRequest(new Request("http://localhost/api/email-intelligence", { method: "POST", body: "{}" }), undefined, () => false)
   assert.equal(response.status, 401)
 })
 
