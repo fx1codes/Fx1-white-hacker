@@ -27,7 +27,7 @@ function sign(payload: string) {
 
 export function createAdminSession(email: string, now = Date.now()) {
   const payload = Buffer.from(JSON.stringify({
-    sub: email.toLowerCase(),
+    sub: email.trim().toLowerCase(),
     role: "admin",
     exp: Math.floor(now / 1000) + SESSION_SECONDS,
   })).toString("base64url")
