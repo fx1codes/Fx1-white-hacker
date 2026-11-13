@@ -18,8 +18,8 @@ function configuredLoopbackUrl(value: string): URL | null {
   }
 }
 
-export async function GET() {
-  if (!(await isAdminAuthenticated())) {
+export async function GET(request: Request) {
+  if (!isAdminRequestAuthenticated(request)) {
     return NextResponse.json({ error: "Administrator authentication required." }, { status: 401, headers: { "Cache-Control": "no-store" } })
   }
   const configuredUrl = process.env.FX1_CORE_ENGINE_URL
