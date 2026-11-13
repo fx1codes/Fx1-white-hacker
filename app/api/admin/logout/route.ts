@@ -3,7 +3,11 @@ import { ADMIN_COOKIE } from "@/lib/admin-auth"
 
 export async function POST(request: NextRequest) {
   const origin = request.headers.get("origin")
-  if (!origin || new URL(origin).origin !== new URL(request.url).origin) {
+  try {
+    if (!origin || new URL(origin).origin !== new URL(request.url).origin) {
+      return NextResponse.json({ error: "Request origin rejected." }, { status: 403 })
+    }
+  } catch {
     return NextResponse.json({ error: "Request origin rejected." }, { status: 403 })
   }
   const response = NextResponse.json({ authenticated: false })
