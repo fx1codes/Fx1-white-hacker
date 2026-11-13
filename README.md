@@ -55,6 +55,10 @@ Never commit these values or prefix them with `NEXT_PUBLIC_`. Redeploy after set
 
 FX1 is intended for systems, accounts, networks, and data that the operator owns or is explicitly authorized to assess. Scanning must be limited to approved scope, with rate limits, audit records, and safe defaults. The platform is not designed to crack passwords or accounts, bypass authentication, deploy malware, evade detection, or covertly track people or devices. Password auditing should be limited to offline review of hashes or credentials supplied by the authorized owner, with no online guessing or credential attacks.
 
+## Stage 5: assessment workspace
+
+The initial assessment workspace supports administrator-only registration of public DNS hostnames, an explicit ownership/authorization declaration, browser-local asset inventory, a preparation checklist, and a browser-local activity trail. It does not send network probes, execute vulnerability checks, or claim to verify the authorization declaration. Browser-local records are not synchronized, durable server records, or tamper-resistant audit evidence. Central persistence and a separately reviewed, scope-enforcing assessment runner remain future work.
+
 ## Current implementation status
 
 The roadmap above is a product direction, not a claim that every module is already available. Check the dashboard, pull requests, CI results, and module documentation for verified implementation status. The current email-intelligence feature performs public DNS checks only; it does not verify mailbox ownership. The local Core Bridge listens on loopback and cannot be reached from a hosted Vercel deployment through the server's localhost address.
