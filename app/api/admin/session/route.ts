@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server"
-import { ADMIN_COOKIE, ADMIN_EMAIL, isAdminAuthenticated } from "@/lib/admin-auth"
+import { ADMIN_COOKIE, ADMIN_EMAIL, isAdminAuthenticated } from "../../../../lib/admin-auth"
 
 export async function GET() {
   const authenticated = await isAdminAuthenticated()
