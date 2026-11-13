@@ -143,13 +143,13 @@ export async function investigateEmailAddress(
     status: "Unable to Check",
     confidence: "Low",
     details: ["A DKIM selector is required to query a selector-specific public key."],
-    source: "DNS TXT: selector._domainkey.${domain}",
+    source: `DNS TXT: <selector>._domainkey.${domain}`,
   }
   const syntax: EmailCheck = {
     name: "Address syntax",
     status: "Confirmed",
     confidence: "High",
-    details: ["The address has a valid basic email structure."],
+    details: ["The address has a valid basic email structure; mailbox ownership was not checked."],
     source: "Local validation",
   }
   const ownership: EmailCheck = {
@@ -165,12 +165,12 @@ export async function investigateEmailAddress(
     domain,
     investigatedAt: new Date().toISOString(),
     checks: [
-      syntax,
-      mx,
+      { ...mx, details: mx.status === "Confirmed" ? ["MX records were found; mailbox ownership was not checked.", ...mx.details] : mx.details },
       { ...txt, name: "SPF policy" },
       { ...dmarc, name: "DMARC policy" },
       dkim,
       ns,
+      syntax,
       ownership,
     ],
   }
