@@ -3,6 +3,7 @@
 import { useEffect, useState, type FormEvent } from "react"
 import { useRouter } from "next/navigation"
 import { requestEmailInvestigation } from "@/lib/email-intelligence-client"
+import { AssessmentWorkspace } from "@/components/assessment-workspace"
 import type { EmailInvestigation } from "@/lib/email-intelligence"
 import {
   Activity,
@@ -41,6 +42,7 @@ const modules = [
 const navItems = [
   { label: "Command Center", icon: LayoutDashboard, available: true },
   { label: "Email Intelligence", icon: Mail, available: true },
+  { label: "Assessment Workspace", icon: ScanSearch, available: true },
   { label: "Security Modules", icon: ScanSearch, available: false },
   { label: "Findings & Evidence", icon: Shield, available: false },
   { label: "Reports", icon: FileText, available: false },
@@ -135,7 +137,9 @@ export function Workstation() {
           </header>
 
           <div className="mx-auto max-w-[1600px] p-5 lg:p-9">
-            {activeNav === "Email Intelligence" ? (
+            {activeNav === "Assessment Workspace" ? (
+              <AssessmentWorkspace />
+            ) : activeNav === "Email Intelligence" ? (
               <section className="rounded-3xl border border-[#243b76] bg-[radial-gradient(circle_at_top_right,rgba(5,4,170,0.3),transparent_36%),linear-gradient(115deg,#0b1e49,#081432)] p-6 shadow-[0_20px_60px_rgba(0,0,0,0.24)] lg:p-8">
                 <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#4e70ce]/40 bg-white/5 px-3 py-1.5 text-[11px] font-medium uppercase tracking-[0.16em] text-[#b5c8ff]"><Mail className="size-3.5" /> Passive domain checks</div>
                 <h2 className="text-3xl font-semibold tracking-tight text-white">Email Intelligence</h2>
