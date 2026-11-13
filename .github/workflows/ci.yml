@@ -2,10 +2,9 @@ name: CI
 
 on:
   pull_request:
-  push:
     branches:
       - main
-      - fix/email-intelligence-ci
+      - ai_main_fe2e0b6bec39494e8465
 
 permissions:
   contents: read
