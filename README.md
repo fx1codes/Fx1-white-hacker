@@ -1,129 +1,80 @@
-🛡️ FX1 WhiteHat Lab
+# FX1 SHADOWCORE
 
-Full-Stack Ethical Hacking | Cybersecurity | Penetration Testing | Security Research
+**FX1 Digital Hubs — modular cybersecurity workstation and personal security research lab.**
 
-Welcome to FX1 WhiteHat Lab, a personal cybersecurity research and development laboratory focused on learning, building, testing, and understanding modern digital security.
+FX1 SHADOWCORE is being developed as an extensible platform for defensive security engineering, authorized assessment, digital investigations, threat intelligence, and security automation. The roadmap describes the intended capabilities; each module is marked operational only after its implementation, tests, and required integrations are verified.
 
-This repository documents my journey into full-stack white-hat hacking, using Android Termux as my primary development environment.
+## Platform
 
-My mission is to develop practical cybersecurity skills, build custom security tools, understand vulnerabilities, and learn how to protect digital infrastructure.
+- Next.js 16, React 19, and TypeScript dashboard.
+- Python local Core Bridge with loopback binding, bearer-token authentication, health/status endpoints, and explicit assessment-scope validation.
+- Passive email-domain intelligence for MX, SPF, DMARC, and nameserver DNS records.
+- Server-side AI gateway foundation for OpenAI and local Ollama. It is disabled until private server environment variables are configured and is not exposed as an anonymous inference endpoint.
+- GitHub Actions checks for frontend lint, tests, production build, and Python bridge tests.
 
----
+## Administrator access
 
-🎯 Mission
+The Stage 4 administrator identity is `fx1faucet@gmail.com`. The address is an allowlisted account identifier, not proof of identity by itself. Sign-in also requires a private administrator password and a server-side session-signing secret.
 
-To become a skilled full-stack white-hat hacker with practical knowledge of:
+Configure these values in Vercel Project Settings → Environment Variables and in the local server environment:
 
-- Network security
-- Web application security
-- Linux security
-- Android security
-- Ethical penetration testing
-- Python security automation
-- Vulnerability assessment
-- Defensive cybersecurity
+- `FX1_ADMIN_EMAIL=fx1faucet@gmail.com`
+- `FX1_ADMIN_PASSWORD` — choose a unique password of at least 16 characters.
+- `FX1_SESSION_SECRET` — generate a random secret of at least 32 characters (for example, `openssl rand -base64 48`).
 
-🧰 Development Environment
+Never commit these values or prefix them with `NEXT_PUBLIC_`. Redeploy after setting environment variables. Sessions use signed HTTP-only cookies, SameSite strict, and a 12-hour expiry. The included in-memory login throttle is best-effort only; production multi-instance deployments should add a durable rate-limit store before public exposure. For stronger proof that the administrator controls the mailbox, replace password sign-in with a verified email magic-link or passkey provider.
 
-Technology| Purpose
-Termux| Android Linux environment
-Python| Security automation and tool development
-Git| Version control
-GitHub| Project management and collaboration
-Nmap| Network discovery and auditing
-OpenSSH| Secure remote administration
-Linux| System administration and security
+## Capability roadmap
 
-📚 Learning Areas
+### Defensive vulnerability assessment
+- Asset inventory and explicit authorization/scope records.
+- Safe configuration and exposure checks for owned systems.
+- Dependency, TLS, security-header, and known-vulnerability review.
+- Controlled web/API assessment with rate limits, evidence capture, and remediation guidance.
+- Optional integration with established scanners in a controlled lab or against explicitly authorized assets.
 
-1. Networking
+### Social-web and open-source intelligence (OSINT)
+- Search and correlate publicly available information from permitted sources.
+- Domain, organization, username, and public-profile references with source links and timestamps.
+- Confidence scoring, provenance, deduplication, and analyst review.
+- No account takeover, private-account access, credential harvesting, or bypass of platform controls.
 
-Understanding IP addresses, DNS, ports, protocols, network discovery, and network diagnostics.
+### IP and network intelligence
+- Public IP metadata such as ASN, network owner, provider, routing context, reputation, and approximate region.
+- Authorized asset inventory and network exposure checks.
+- Historical evidence and confidence labels where a lawful data source supports them.
+- IP geolocation is approximate and cannot reliably identify a person's exact address or live physical location.
 
-2. Reconnaissance
+### Security operations
+- Findings, evidence, audit trail, and report generation.
+- Role-based access and API usage controls.
+- AI-assisted defensive analysis with server-side credentials and usage limits.
+- Local Core Engine integrations for approved tools and lab workflows.
 
-Learning authorized information gathering, domain intelligence, and asset discovery.
+## Authorization and safety model
 
-3. Web Application Security
+FX1 is intended for systems, accounts, networks, and data that the operator owns or is explicitly authorized to assess. Scanning must be limited to approved scope, with rate limits, audit records, and safe defaults. The platform is not designed to crack passwords or accounts, bypass authentication, deploy malware, evade detection, or covertly track people or devices. Password auditing should be limited to offline review of hashes or credentials supplied by the authorized owner, with no online guessing or credential attacks.
 
-Studying OWASP security principles, SQL injection, XSS, CSRF, authentication, and secure coding.
+## Current implementation status
 
-4. Python Security Tools
+The roadmap above is a product direction, not a claim that every module is already available. Check the dashboard, pull requests, CI results, and module documentation for verified implementation status. The current email-intelligence feature performs public DNS checks only; it does not verify mailbox ownership. The local Core Bridge listens on loopback and cannot be reached from a hosted Vercel deployment through the server's localhost address.
 
-Developing custom scripts for network diagnostics, security automation, and vulnerability assessment.
+## Development
 
-5. Linux Security
+```sh
+pnpm install
+pnpm dev
+```
 
-Exploring permissions, processes, SSH, system administration, and security hardening.
+Run checks:
 
-6. Android Security
+```sh
+pnpm lint
+pnpm test
+pnpm build
+python -m unittest discover -s core-bridge -p 'test_*.py'
+```
 
-Learning Android application architecture, APK analysis, permissions, and mobile application security.
+## Environment
 
-7. Penetration Testing
-
-Practising structured security assessments in controlled and authorized environments.
-
-8. Defensive Security
-
-Learning threat detection, vulnerability remediation, monitoring, and incident response.
-
----
-
-📂 Repository Structure
-
-FX1-WhiteHat-Lab/
-│
-├── Networking/
-├── Reconnaissance/
-├── Web-Security/
-├── Python-Tools/
-├── Android-Security/
-├── Linux/
-├── Reports/
-├── Documentation/
-│
-└── README.md
-
-⚙️ Getting Started
-
-Update your Termux packages:
-
-pkg update && pkg upgrade -y
-
-Install essential development tools:
-
-pkg install git python python-pip curl wget nano openssh nmap dnsutils whois jq -y
-
-Clone this repository:
-
-git clone https://github.com/fx1codes/FX1-WhiteHat-Lab.git
-
-Enter the project directory:
-
-cd FX1-WhiteHat-Lab
-
-🔐 Ethical Guidelines
-
-This laboratory is strictly dedicated to ethical hacking, cybersecurity education, and authorized security research.
-
-- Only test systems you own or have explicit permission to assess.
-- Never access private systems without authorization.
-- Respect user privacy and data protection.
-- Disclose discovered vulnerabilities responsibly.
-- Use security knowledge to protect rather than harm.
-
-🚀 Long-Term Vision
-
-Build an independent collection of cybersecurity tools, practical research projects, security documentation, and Python automation utilities.
-
-The ultimate objective is to develop the technical ability to understand, assess, and secure digital systems across networks, websites, servers, and mobile applications.
-
----
-
-Project: FX1 WhiteHat Lab
-Focus: Full-Stack Ethical Hacking & Cybersecurity
-Environment: Android Termux
-Developer: FX1 Digital Hubs
-
-Learn. Build. Test. Secure.
+See [Core Bridge setup](core-bridge/README.md) and [AI Gateway configuration](core-bridge/AI-GATEWAY.md). Keep all credentials in local environment files or deployment secret settings, never in source control.
