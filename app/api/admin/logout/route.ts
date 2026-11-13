@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
-import { ADMIN_COOKIE } from "@/lib/admin-auth"
+import { ADMIN_COOKIE } from "../../../../lib/admin-auth"
 
 export async function POST(request: NextRequest) {
   const origin = request.headers.get("origin")
