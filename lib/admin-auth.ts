@@ -54,7 +54,7 @@ export function verifyAdminSession(token: string | undefined, now = Date.now()) 
 
 export function authenticateAdmin(email: string, password: string) {
   const configuredPassword = process.env.FX1_ADMIN_PASSWORD
-  if (!configuredPassword || configuredPassword.length < 16) return false
+  if (!configuredPassword || configuredPassword.length < 16 || !process.env.FX1_SESSION_SECRET || process.env.FX1_SESSION_SECRET.length < 32) return false
   if (email.trim().toLowerCase() !== ADMIN_EMAIL) return false
   return equalSecret(password, configuredPassword)
 }
