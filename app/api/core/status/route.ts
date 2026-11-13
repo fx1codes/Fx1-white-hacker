@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server"
-
+import { isAdminAuthenticated } from "@/lib/admin-auth"
 
 const disconnected = (message: string, status = 503) =>
   NextResponse.json(
@@ -19,6 +19,9 @@ function configuredLoopbackUrl(value: string): URL | null {
 }
 
 export async function GET() {
+  if (!(await isAdminAuthenticated())) {
+    return NextResponse.json({ error: "Administrator authentication required." }, { status: 401, headers: { "Cache-Control": "no-store" } })
+  }
   const configuredUrl = process.env.FX1_CORE_ENGINE_URL
   const token = process.env.FX1_CORE_TOKEN
 
