@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState, type FormEvent } from "react"
+import { useRouter } from "next/navigation"
 import { requestEmailInvestigation } from "@/lib/email-intelligence-client"
 import type { EmailInvestigation } from "@/lib/email-intelligence"
 import {
@@ -47,6 +48,7 @@ const navItems = [
 ]
 
 export function Workstation() {
+  const router = useRouter()
   const [activeNav, setActiveNav] = useState("Command Center")
   const [mobileNavOpen, setMobileNavOpen] = useState(false)
   const [email, setEmail] = useState("")
@@ -129,7 +131,7 @@ export function Workstation() {
         <div className="min-w-0 flex-1">
           <header className="flex h-20 items-center justify-between border-b border-white/10 bg-[#07132e]/85 px-5 backdrop-blur-xl lg:px-9">
             <div className="flex items-center gap-3"><button aria-label="Open navigation" onClick={() => setMobileNavOpen(true)} className="rounded-lg p-2 text-slate-400 hover:bg-white/10 lg:hidden"><Menu /></button><div><p className="text-xs font-medium uppercase tracking-[0.18em] text-[#7da5ff]">FX1 SHADOWCORE</p><h1 className="mt-1 text-xl font-semibold tracking-tight text-white">{activeNav}</h1></div></div>
-            <div className="flex items-center gap-3"><div className="hidden items-center gap-2 rounded-xl border border-white/10 bg-white/[0.03] px-3 py-2 text-xs text-slate-500 sm:flex"><Search className="size-3.5" /> Search unavailable</div><span className="rounded-xl border border-white/10 p-2.5 text-slate-500" aria-label="Notifications not configured" title="Notifications not configured"><AlertTriangle className="size-4" /></span><button onClick={async () => { await fetch("/api/admin/logout", { method: "POST" }); window.location.assign("/admin-login") }} className="inline-flex items-center gap-2 rounded-xl border border-white/10 px-3 py-2.5 text-xs text-slate-300 hover:bg-white/5" aria-label="Sign out"><LogOut className="size-4" /><span className="hidden sm:inline">Sign out</span></button></div>
+            <div className="flex items-center gap-3"><div className="hidden items-center gap-2 rounded-xl border border-white/10 bg-white/[0.03] px-3 py-2 text-xs text-slate-500 sm:flex"><Search className="size-3.5" /> Search unavailable</div><span className="rounded-xl border border-white/10 p-2.5 text-slate-500" aria-label="Notifications not configured" title="Notifications not configured"><AlertTriangle className="size-4" /></span><button onClick={async () => { await fetch("/api/admin/logout", { method: "POST" }); router.replace("/admin-login") }} className="inline-flex items-center gap-2 rounded-xl border border-white/10 px-3 py-2.5 text-xs text-slate-300 hover:bg-white/5" aria-label="Sign out"><LogOut className="size-4" /><span className="hidden sm:inline">Sign out</span></button></div>
           </header>
 
           <div className="mx-auto max-w-[1600px] p-5 lg:p-9">
