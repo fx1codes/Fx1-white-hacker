@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState, type FormEvent } from "react"
 import { ClipboardCheck, Plus, ShieldCheck, Trash2, CircleAlert, History, LockKeyhole } from "lucide-react"
+import { normalizePublicHostname } from "@/lib/assessment-scope"
 
 type Asset = {
   id: string
@@ -19,7 +20,6 @@ type AuditEntry = {
 
 const ASSETS_KEY = "fx1.stage5.assets.v1"
 const AUDIT_KEY = "fx1.stage5.audit.v1"
-const HOST_PATTERN = /^(?=.{1,253}$)(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?)(?:\.(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?))+$/i
 
 function readList<T>(key: string): T[] {
   try {
@@ -60,8 +60,8 @@ export function AssessmentWorkspace() {
   function addAsset(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     setError("")
-    const normalized = hostname.trim().toLowerCase().replace(/\.$/, "")
-    if (!HOST_PATTERN.test(normalized)) {
+    const normalized = normalizePublicHostname(hostname)
+    if (!normalized) {
       setError("Enter a valid public DNS hostname, such as example.com. IP addresses and wildcard scopes are not accepted in this initial stage.")
       return
     }
