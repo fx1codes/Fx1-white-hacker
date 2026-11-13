@@ -32,7 +32,7 @@ async function post(body: string, investigator?: typeof investigateEmailAddress)
     method: "POST",
     headers: { "content-type": "application/json" },
     body,
-  }), investigator)
+  }), investigator, async () => true)
 }
 
 test("valid email returns structured DNS results without verifying mailbox ownership", async () => {
@@ -75,6 +75,11 @@ test("DNS timeout is reported as unavailable", async () => {
 test("DNS server failure is reported as unavailable", async () => {
   const result = await investigateEmailAddress("person@example.test", { createResolver: resolverFixture(successfulRecords, { "mx:example.test": "ESERVFAIL" }) })
   assert.equal(result.checks.find((check) => check.name === "MX records")?.status, "Unable to Check")
+})
+
+test("unauthenticated API requests are rejected", async () => {
+  const response = await handleEmailIntelligenceRequest(new Request("http://localhost/api/email-intelligence", { method: "POST", body: "{}" }), undefined, async () => false)
+  assert.equal(response.status, 401)
 })
 
 test("malformed JSON is rejected with a safe client error", async () => {
