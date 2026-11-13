@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
-import { ADMIN_COOKIE, authenticateAdmin, createAdminSession } from "@/lib/admin-auth"
+import { ADMIN_COOKIE, authenticateAdmin, createAdminSession } from "../../../../lib/admin-auth"
 
 const attempts = new Map<string, { count: number; resetAt: number }>()
 const WINDOW_MS = 60_000
