@@ -1,5 +1,5 @@
 import { EmailValidationError, investigateEmailAddress } from "../../../lib/email-intelligence.ts"
-import { isAdminAuthenticated } from "@/lib/admin-auth"
+import { isAdminAuthenticated } from "../../../lib/admin-auth.ts"
 
 const responseHeaders = { "Cache-Control": "no-store" }
 
