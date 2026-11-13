@@ -1,7 +1,5 @@
 import { NextResponse } from "next/server"
 
-export const runtime = "nodejs"
-export const dynamic = "force-dynamic"
 
 const disconnected = (message: string, status = 503) =>
   NextResponse.json(
