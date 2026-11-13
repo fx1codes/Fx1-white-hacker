@@ -1,8 +1,10 @@
 "use client"
 
 import { useState, type FormEvent } from "react"
+import { useRouter } from "next/navigation"
 
 export default function AdminLoginPage() {
+  const router = useRouter()
   const [email, setEmail] = useState("fx1faucet@gmail.com")
   const [password, setPassword] = useState("")
   const [error, setError] = useState("")
@@ -24,7 +26,7 @@ export default function AdminLoginPage() {
         setError(typeof result === "object" && result !== null && "error" in result && typeof result.error === "string" ? result.error : "Sign-in failed.")
         return
       }
-      window.location.assign("/")
+      router.replace("/")
     } catch {
       setError("Unable to reach the sign-in service.")
     } finally {
