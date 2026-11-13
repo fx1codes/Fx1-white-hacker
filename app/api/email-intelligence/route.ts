@@ -3,7 +3,7 @@ import { isAdminRequestAuthenticated } from "../../../lib/admin-session.ts"
 
 const responseHeaders = { "Cache-Control": "no-store" }
 
-export async function handleEmailIntelligenceRequest(request: Request, investigator = investigateEmailAddress, authorize = isAdminRequestAuthenticated) {
+export async function handleEmailIntelligenceRequest(request: Request, investigator = investigateEmailAddress, authorize: (request: Request) => boolean | Promise<boolean> = isAdminRequestAuthenticated) {
   if (!(await authorize(request))) {
     return Response.json({ error: "Administrator authentication required." }, { status: 401, headers: responseHeaders })
   }
